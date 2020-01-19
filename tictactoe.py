@@ -41,21 +41,30 @@ def draw_board(board):
         print(f"-----")
 
 def ask_for_input(player):
-    print("Where to go next? 0,0")
+    print("Where to go next? column,row")
     user_in = input()
     user_in = user_in.split(",")
     x = int(user_in[0])
     y = int(user_in[1])
+    if(board[x][y] != 0):
+        return False
     board[x][y] = player
+    return True
 
 player = 0
 while(True):
+    if (player > 8):
+        print("Draw!")
+        break
     if (player % 2):
-        ask_for_input(-1)
+        while(not ask_for_input(-1)):
+            print("Already Taken")
     else:
-        ask_for_input(1)
+        while(not ask_for_input(1)):
+            print("Already Taken")
     draw_board(board)
     if(check_won(board)):
-        print("Someone Won!!!")
+        print(f"{get_char(player)} Won!!!")
+        break
 
     player = player + 1
